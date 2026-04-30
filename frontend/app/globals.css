@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #f3f7fb;
+  --ink: #0f172a;
+}
+
+* { box-sizing: border-box; }
+body {
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, .10), transparent 36rem),
+    linear-gradient(135deg, #f8fbff 0%, #eef4fb 100%);
+  color: var(--ink);
+}
+
+.input { @apply w-full rounded-2xl border border-slate-200 bg-white/90 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100; }
+.btn { @apply inline-flex items-center justify-center rounded-2xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm shadow-blue-600/20 transition hover:bg-blue-700 disabled:opacity-50; }
+.btn2 { @apply inline-flex items-center justify-center rounded-2xl bg-slate-100 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-200; }
+.btn-danger { @apply inline-flex items-center justify-center rounded-2xl bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-100; }
+.card { @apply rounded-3xl border border-white/70 bg-white/85 p-6 shadow-xl shadow-slate-200/60 backdrop-blur; }
+.label { @apply mb-1 block text-sm font-semibold text-slate-600; }
+.badge { @apply inline-flex rounded-full px-3 py-1 text-xs font-bold; }
+.table-row { @apply border-t border-slate-100 transition hover:bg-slate-50/80; }
+.page-title { @apply text-3xl font-black tracking-tight text-slate-950; }
+.page-subtitle { @apply mt-1 text-sm text-slate-500; }

@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Next.js
+.next/
+out/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Uploads
+uploads/
+backend/uploads/
+backend/src/uploads/*
+
+# Docker/local database data
+postgres_data/
+
+# Editor/OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,13 @@
+const router = require('express').Router();
+const crypto = require('crypto');
+const prisma = require('../prisma');
+const auth = require('../middleware/auth');
+const { audit } = require('../services/audit');
+router.use(auth);
+const code = () => crypto.randomBytes(4).toString('hex');
+router.get('/', async (_, res) => res.json(await prisma.device.findMany({ include: { room: true }, orderBy: { name: 'asc' } })));
+router.post('/', async (req, res) => { const device = await prisma.device.create({ data: { name: req.body.name, deviceCode: req.body.deviceCode || code(), pairingCode: req.body.pairingCode || code().toUpperCase(), roomId: req.body.roomId || null } }); await audit(req.user.id, 'CREATE', 'Device', device.id, device); res.json(device); });
+router.put('/:id', async (req, res) => { const d = await prisma.device.update({ where: { id: req.params.id }, data: req.body, include: { room: true } }); await audit(req.user.id, 'UPDATE', 'Device', d.id, req.body); req.app.get('io').emit('display:changed'); res.json(d); });
+router.post('/:id/link-room', async (req, res) => { const d = await prisma.device.update({ where: { id: req.params.id }, data: { roomId: req.body.roomId }, include: { room: true } }); await audit(req.user.id, 'LINK_ROOM', 'Device', d.id, { roomId: req.body.roomId }); req.app.get('io').emit('display:changed'); res.json(d); });
+router.delete('/:id', async (req, res) => { const d = await prisma.device.delete({ where: { id: req.params.id } }); await audit(req.user.id, 'DELETE', 'Device', d.id); const io = req.app.get('io'); io.emit('display:changed'); io.emit('devices:changed'); res.json({ ok: true, device: d }); });
+module.exports = router;
